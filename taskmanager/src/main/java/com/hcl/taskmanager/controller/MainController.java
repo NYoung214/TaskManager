@@ -1,12 +1,12 @@
 package com.hcl.taskmanager.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -60,11 +60,36 @@ public class MainController {
 	}
 	
 	
-	
-	@GetMapping("/edit-task")
-	public String editTask() {
-		return "edit-task";
+	@GetMapping("/edit-task/{id}")
+	public ModelAndView editTaskPageWithId(@PathVariable String id) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("edit-task");
+		mv.addObject("current", taskServ.findById(Long.parseLong(id)));
+		mv.addObject("users", userServ.findAll());
+		return mv;
 	}
+	
+	@PostMapping("/update")
+	public ModelAndView editTask(@RequestParam String username, @ModelAttribute("sessionName") String session, 
+			@RequestParam String taskId,Task task) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("home");
+		User user = userServ.findByUsername(username);
+		task.setUser(user);
+		task.setTaskId(Long.parseLong(taskId));
+		Task savedTask = taskServ.save(task);
+		if(savedTask != null) {
+			mv.addObject("message", "Task saved successfully");
+		}else {
+			mv.addObject("error", "Task could not be saved");
+		}
+		user = userServ.findByUsername(session);
+		mv.addObject("user", user);
+		mv.addObject("tasks", taskServ.getAllByUserId(user.getUserId()));
+		return mv;
+	}
+	
+	
 	
 	@GetMapping("/login")
 	public String loginPage() {

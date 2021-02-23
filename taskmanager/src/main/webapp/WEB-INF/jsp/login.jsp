@@ -5,12 +5,13 @@
 <html>
 <head>
 	<meta charset="ISO-8859-1">
-	<title>Insert title here</title>
+	<title>Login</title>
 </head>
 <body>
 	<div class="container">
 		<h2>Login</h2>
-		<p>${message }</p>
+		<p>${message}</p>
+		<p>${error}</p>
 		<form action="/login" method="post">
 			<label>Username</label><input type="text" name="username" placeholder="username" value="test"/><br>
 			<label>Password</label><input type="password" name="password" placeholder="password" value="test"/><br>

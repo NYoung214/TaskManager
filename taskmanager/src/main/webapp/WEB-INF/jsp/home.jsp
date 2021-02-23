@@ -12,6 +12,8 @@
 	<div class="container test">
 		<div>
 			<h1>Welcome ${sessionName}</h1>
+			<p>${message}</p>
+			<p>${error}</p>
 		</div>
 		<div class="sub-contain test">
 			<div>
@@ -24,10 +26,6 @@
 				Task Name - User - email - Start Date <br>
 				Severity - Task End ate - Description<br>
 				</p>
-				<p class="right">
-					<a href="/edit-task">Edit</a><br>
-					<a href="/delete">Delete</a><br>
-				</p>
 			</div>
 			
 			<c:forEach items="${tasks}" var="task">
@@ -37,7 +35,7 @@
 					${task.severity } - ${task.endDate } - ${task.description }
 					</p>
 					<p class="right">
-						<a href="/edit-task">Edit</a><br>
+						<a href="/edit-task/${task.taskId }">Edit</a><br>
 						<a href="/delete">Delete</a><br>
 					</p>				
 				</div>

@@ -11,10 +11,9 @@
 <body>
 	<div class="container test">
 		<h2>Add A Task</h2>
-		<p>${message}</p>
-		<p>${error}</p>
+		<p>${message }</p>
 		<form action="add-task" method="post">
-			<label>Which User should do the task:</label>
+			<label>Add a Task for which User:</label>
 				<select name="username">
 					<c:forEach items="${users }" var="user">
 						<option value="${user.username }">${user.username }</option>
