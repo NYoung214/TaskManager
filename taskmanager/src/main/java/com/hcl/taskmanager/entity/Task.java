@@ -1,14 +1,14 @@
 package com.hcl.taskmanager.entity;
 
-import java.util.Date;
+
+
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity(name="task")
 public class Task {
@@ -18,11 +18,8 @@ public class Task {
 	private Long taskId;
 	private String taskName;
 	private String description;
-	private String email;
 	private String severity;
-	@Temporal(TemporalType.DATE)
 	private Date startDate;
-	@Temporal(TemporalType.DATE)
 	private Date endDate;
 	@ManyToOne
 	private User user;
@@ -31,13 +28,12 @@ public class Task {
 		super();
 	}
 
-	public Task(Long taskId, String taskName, String description, String email, String severity, Date startDate,
+	public Task(Long taskId, String taskName, String description, String severity, Date startDate,
 			Date endDate, User user) {
 		super();
 		this.taskId = taskId;
 		this.taskName = taskName;
 		this.description = description;
-		this.email = email;
 		this.severity = severity;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -66,14 +62,6 @@ public class Task {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getSeverity() {
@@ -110,7 +98,7 @@ public class Task {
 
 	@Override
 	public String toString() {
-		return "Task [taskId=" + taskId + ", taskName=" + taskName + ", description=" + description + ", email=" + email
+		return "Task [taskId=" + taskId + ", taskName=" + taskName + ", description=" + description + ", email="
 				+ ", severity=" + severity + ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
 	

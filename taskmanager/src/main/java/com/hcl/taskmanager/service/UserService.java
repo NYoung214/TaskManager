@@ -1,5 +1,8 @@
 package com.hcl.taskmanager.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +33,14 @@ public class UserService {
 			return true;
 		}
 		return false;
+	}
+
+	public List<User> findAll() {
+		List<User> list = new ArrayList<User>();
+		for(User user : userRepo.findAll()) {
+			list.add(user);
+		}
+		return list;
 	}
 
 

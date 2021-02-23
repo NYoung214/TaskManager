@@ -28,21 +28,38 @@ public class MainController {
 
 	@GetMapping("/home")
 	public ModelAndView index(@ModelAttribute("sessionName") String username) {
-		System.out.println(username + "<-- is session empty/null?");
 		User user = userServ.findByUsername(username);
-		System.out.println(user + "<-- is user empty/null?");
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
-		List<Task> list = taskServ.getAllByUserId(user.getUserId());
-		System.out.println(list + "<-- is list empty?");
-		mv.addObject("tasks", list);
+		mv.addObject("user", user);
+		mv.addObject("tasks", taskServ.getAllByUserId(user.getUserId()));
 		return mv;
 	}
 	
 	@GetMapping("/add-task")
-	public String addTaskPage() {
-		return "add-task";
+	public ModelAndView addTaskPage() {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("users", userServ.findAll());
+		return mv;
 	}
+	
+	@PostMapping("/add-task")
+	public ModelAndView addTask(@RequestParam String username, Task task) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("add-task");
+		User user = userServ.findByUsername(username);
+		task.setUser(user);
+		Task savedTask = taskServ.save(task);
+		if(savedTask != null) {
+			mv.addObject("message", "Task saved successfully");
+		}else {
+			mv.addObject("error", "Task could not be saved");
+		}
+		mv.addObject("users", userServ.findAll());
+		return mv;
+	}
+	
+	
 	
 	@GetMapping("/edit-task")
 	public String editTask() {
@@ -64,7 +81,6 @@ public class MainController {
 			mv.addObject("sessionId", user.getUserId());
 			mv.addObject("user", user);
 			mv.addObject("tasks", taskServ.getAllByUserId(user.getUserId()));
-			System.out.println("\nMADE IT OKAY ----------------- \n");
 		}else {
 			mv.setViewName("login");
 			mv.addObject("username", username);

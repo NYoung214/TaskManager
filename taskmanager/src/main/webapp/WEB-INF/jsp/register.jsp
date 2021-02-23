@@ -14,7 +14,7 @@
 		<form action="/register" method="post">
 			<label>Username</label><input type="text" name="username" placeholder="username"/><br>
 			<label>Password</label><input type="password" name="password" placeholder="password"/><br>
-			<!-- // TODO  ADD EMAIL AS WELL -->
+			<label>Email</label><input type="email" name="email" placeholder="username@email.com"/>
 			<button type="submit">Register</button>
 			<a href="/login">Back To Login</a>
 		</form>

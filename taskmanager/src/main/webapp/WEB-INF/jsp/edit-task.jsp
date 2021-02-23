@@ -24,7 +24,7 @@
 				</select>
 			<label>Description</label>
 			<textarea name="description" cols="30" rows="10"></textarea>
-			<button type="submit">Save Changes</button><a href="/home">Cancel</a>
+			<button type="submit">Save Changes</button><a href="/home">Back</a>
 		</form>
 	</div>
 </body>

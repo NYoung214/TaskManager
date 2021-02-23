@@ -33,7 +33,7 @@
 			<c:forEach items="${tasks}" var="task">
 				<div>
 					<p class="left">
-					${task.taskId } - ${task.taskName} - ${sessionName } ${task.email } ${task.startDate} - ${task.endDate }<br>
+					${task.taskId } - ${task.taskName} - ${user.username } ${user.email } ${task.startDate} - ${task.endDate }<br>
 					${task.severity } - ${task.endDate } - ${task.description }
 					</p>
 					<p class="right">

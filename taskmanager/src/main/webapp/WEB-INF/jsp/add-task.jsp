@@ -10,21 +10,27 @@
 </head>
 <body>
 	<div class="container test">
-		<form action="#" method="post">
-			<label>Task Name</label><input type="text" name="taskname" placeholder="Task name"/>
-			<label>User</label><input type="text" name="username" placeholder="User name"/>
-			<label>Email</label><input type="email" name="email" placeholder="username@email.com"/>
-			<label>Start Date</label><input type="date" name="startdate"/>
-			<label>End Date</label><input type="date" name="enddate"/>
+		<h2>Add A Task</h2>
+		<p>${message }</p>
+		<form action="add-task" method="post">
+			<label>Add a Task for which User:</label>
+				<select name="username">
+					<c:forEach items="${users }" var="user">
+						<option value="${user.username }">${user.username }</option>
+					</c:forEach>
+				</select>
+			<label>Task Name</label><input type="text" name="taskName" placeholder="Task name"/>
+			<label>Start Date</label><input type="date" name="startDate"/>
+			<label>End Date</label><input type="date" name="endDate"/>
 			<label>Severity</label>
 				<select name="severity">
-				  <option value="low">Low</option>
-				  <option value="medium">Medium</option>
-				  <option value="high">High</option>
+					<option value="low">Low</option>
+					<option value="medium">Medium</option>
+					<option value="high">High</option>
 				</select>
 			<label>Description</label>
 			<textarea name="description" cols="30" rows="10"></textarea>
-			<button type="submit">Add New Task</button><a href="/home">Cancel</a>
+			<button type="submit">Add New Task</button><a href="/home">Back</a>
 		</form>
 	</div>
 </body>

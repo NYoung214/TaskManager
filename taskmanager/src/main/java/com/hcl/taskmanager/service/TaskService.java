@@ -24,4 +24,8 @@ public class TaskService {
 		return taskList;
 	}
 
+	public Task save(Task task) {
+		return taskRepo.save(task);
+	}
+
 }
