@@ -31,12 +31,12 @@
 			<c:forEach items="${tasks}" var="task">
 				<div>
 					<p class="left">
-					${task.taskId } - ${task.taskName} - ${user.username } ${user.email } ${task.startDate} - ${task.endDate }<br>
+					${task.taskId } - ${task.taskName} - ${task.user.username } - ${task.user.email } - ${task.startDate} - ${task.endDate }<br>
 					${task.severity } - ${task.endDate } - ${task.description }
 					</p>
 					<p class="right">
-						<a href="/edit-task/${task.taskId }">Edit</a><br>
-						<a href="/delete">Delete</a><br>
+						<a href="/edit-task/${task.taskId}">Edit</a><br>
+						<a href="/delete-task/${task.taskId}">Delete</a><br>
 					</p>				
 				</div>
 			</c:forEach>

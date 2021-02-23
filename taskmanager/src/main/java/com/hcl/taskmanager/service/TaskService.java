@@ -31,5 +31,17 @@ public class TaskService {
 	public Task findById(Long id) {
 		return taskRepo.findById(id).get();
 	}
+	
+	public Task getUserByTaskId(Long taskId) {
+		return taskRepo.getUserByTaskId(taskId);
+	}
+
+	public boolean delete(Long taskId) {
+		taskRepo.deleteById(taskId);
+		if(!taskRepo.existsById(taskId)) {
+			return true;
+		}
+		return false;
+	}
 
 }

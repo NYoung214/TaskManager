@@ -134,8 +134,29 @@ public class MainController {
 		return mv;
 	}
 	
+	@GetMapping("/delete-task/{id}")
+	public ModelAndView deleteTaskPageWithId(@PathVariable String id) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("delete-task");
+		mv.addObject("current", taskServ.findById(Long.parseLong(id)));
+		return mv;
+	}
+	
+	@PostMapping("/delete")
+	public ModelAndView deleteTask(@ModelAttribute("sessionName") String session, @RequestParam String taskId) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("home");
+		if(taskServ.delete(Long.parseLong(taskId))) {
+			mv.addObject("message", "Task deleted successfully");
+		}else {
+			mv.addObject("error", "Task could not be deleted");
+		}		
+		System.out.println(session + "<-- session name is here!");
+		User user = userServ.findByUsername(session);
+		mv.addObject("user", user);
+		mv.addObject("tasks", taskServ.getAllByUserId(user.getUserId()));
 
-	
-	
+		return mv;
+	}
 	
 }

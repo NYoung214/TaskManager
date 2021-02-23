@@ -32,7 +32,7 @@
 						<option value="high">High</option>
 					</select>
 				<label>Description</label>
-				<textarea name="description" cols="30" rows="10"></textarea>
+				<textarea name="description" cols="30" rows="10">${current.description}</textarea>
 				<button type="submit">Save Changes</button><a href="/home">Back</a>
 			</form>	
 		</div>
