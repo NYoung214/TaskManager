@@ -27,6 +27,32 @@
 					<a href="/delete">Delete</a><br>
 				</p>
 			</div>
+			
+			<div>
+				<p class="left">
+				${user} - ${user.username}
+				</p>
+				<p class="right">
+					<a href="/edit-task">Edit</a><br>
+					<a href="/delete">Delete</a><br>
+				</p>				
+			</div>
+			
+			<c:forEach items="${tasks}" var="task">
+				<div>
+					<p class="left">
+					${task.taskId } - ${task.taskName} - ${task.startDate} - ${task.endDate }
+					</p>
+					<p class="right">
+						<a href="/edit-task">Edit</a><br>
+						<a href="/delete">Delete</a><br>
+					</p>				
+				</div>
+			</c:forEach>
+			
+			<div>
+
+			</div>
 		</div>
 	</div>
 </body>

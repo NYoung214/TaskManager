@@ -2,17 +2,19 @@ package com.hcl.taskmanager.entity;
 
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+@Entity
 public class User {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long UserId;
-	private String Username;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long userId;
+	private String username;
 	private String password;
 	@OneToMany(mappedBy = "user")
 	private List<Task> task;
@@ -22,24 +24,24 @@ public class User {
 	
 	public User(Long userId, String username, String password, List<Task> task) {
 		super();
-		UserId = userId;
-		Username = username;
+		this.userId = userId;
+		this.username = username;
 		this.password = password;
 		this.task = task;
 	}
 	
 	public Long getUserId() {
-		return UserId;
+		return userId;
 	}
 	
 	public void setUserId(Long userId) {
-		UserId = userId;
+		this.userId = userId;
 	}
 	public String getUsername() {
-		return Username;
+		return username;
 	}
 	public void setUsername(String username) {
-		Username = username;
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
