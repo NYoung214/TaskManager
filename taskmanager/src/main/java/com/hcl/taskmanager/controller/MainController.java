@@ -2,6 +2,7 @@ package com.hcl.taskmanager.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hcl.taskmanager.entity.Task;
@@ -17,7 +19,7 @@ import com.hcl.taskmanager.service.TaskService;
 import com.hcl.taskmanager.service.UserService;
 
 @Controller
-@SessionAttributes({"sessionName","sessionId"})
+@SessionAttributes("sessionName")
 public class MainController {
 	
 	@Autowired
@@ -91,6 +93,18 @@ public class MainController {
 	
 	
 	
+	@GetMapping("/logout")
+	public String logoutPage(@ModelAttribute("sessionName") String session, SessionStatus status ) {
+		status.setComplete();
+		ModelMap m = new ModelMap();
+		if(status.isComplete()) {
+			m.addAttribute("message", "logout successful");
+			return "logout";
+		}
+		m.addAttribute("error", "logout unsuccessful");
+		return "home";
+	}
+	
 	@GetMapping("/login")
 	public String loginPage() {
 		return "login";
@@ -103,7 +117,6 @@ public class MainController {
 			User user = userServ.findByUsername(username);
 			mv.setViewName("home");
 			mv.addObject("sessionName", user.getUsername());
-			mv.addObject("sessionId", user.getUserId());
 			mv.addObject("user", user);
 			mv.addObject("tasks", taskServ.getAllByUserId(user.getUserId()));
 		}else {
@@ -151,7 +164,6 @@ public class MainController {
 		}else {
 			mv.addObject("error", "Task could not be deleted");
 		}		
-		System.out.println(session + "<-- session name is here!");
 		User user = userServ.findByUsername(session);
 		mv.addObject("user", user);
 		mv.addObject("tasks", taskServ.getAllByUserId(user.getUserId()));

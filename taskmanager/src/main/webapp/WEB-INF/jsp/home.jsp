@@ -42,7 +42,7 @@
 			</c:forEach>
 			
 			<div>
-
+				<a href="/logout">Logout</a>
 			</div>
 		</div>
 	</div>
