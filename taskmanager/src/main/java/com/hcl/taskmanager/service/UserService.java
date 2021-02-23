@@ -16,4 +16,21 @@ public class UserService {
 		return userRepo.findById(l).get();
 	}
 
+	public User findByUsername(String username) {
+		return userRepo.findByUsername(username);
+	}
+
+	public User save(User user) {
+		return userRepo.save(user);
+	}
+
+	public boolean isValid(String username, String password) {
+		User user = userRepo.findByUsername(username);
+		if(user != null && user.getPassword().equals(password)) {
+			return true;
+		}
+		return false;
+	}
+
+
 }

@@ -1,5 +1,6 @@
 package com.hcl.taskmanager.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,11 @@ public class TaskService {
 	private TaskRepository taskRepo;
 
 	public List<Task> getAllByUserId(Long id) {
-		return taskRepo.getAllByUserId(id);
+		List<Task> taskList = new ArrayList<Task>();
+		for(Task task : taskRepo.getAllByUserId(id)) {
+			taskList.add(task);
+		}
+		return taskList;
 	}
 
 }

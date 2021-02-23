@@ -10,6 +10,9 @@
 </head>
 <body>
 	<div class="container test">
+		<div>
+			<h1>Welcome ${sessionName}</h1>
+		</div>
 		<div class="sub-contain test">
 			<div>
 				<a href="/add-task">Add Task</a>
@@ -19,29 +22,19 @@
 			<div>
 				<p class="left">
 				Task Name - User - email - Start Date <br>
-				Severity - Task End ate<br>
-				Description<br>
+				Severity - Task End ate - Description<br>
 				</p>
 				<p class="right">
 					<a href="/edit-task">Edit</a><br>
 					<a href="/delete">Delete</a><br>
 				</p>
-			</div>
-			
-			<div>
-				<p class="left">
-				${user} - ${user.username}
-				</p>
-				<p class="right">
-					<a href="/edit-task">Edit</a><br>
-					<a href="/delete">Delete</a><br>
-				</p>				
 			</div>
 			
 			<c:forEach items="${tasks}" var="task">
 				<div>
 					<p class="left">
-					${task.taskId } - ${task.taskName} - ${task.startDate} - ${task.endDate }
+					${task.taskId } - ${task.taskName} - ${sessionName } ${task.email } ${task.startDate} - ${task.endDate }<br>
+					${task.severity } - ${task.endDate } - ${task.description }
 					</p>
 					<p class="right">
 						<a href="/edit-task">Edit</a><br>

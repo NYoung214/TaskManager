@@ -107,6 +107,12 @@ public class Task {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	@Override
+	public String toString() {
+		return "Task [taskId=" + taskId + ", taskName=" + taskName + ", description=" + description + ", email=" + email
+				+ ", severity=" + severity + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+	}
 	
 	
 	

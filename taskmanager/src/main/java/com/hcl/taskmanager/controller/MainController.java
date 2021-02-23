@@ -1,16 +1,23 @@
 package com.hcl.taskmanager.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hcl.taskmanager.entity.Task;
 import com.hcl.taskmanager.entity.User;
-import com.hcl.taskmanager.repository.UserRepository;
 import com.hcl.taskmanager.service.TaskService;
 import com.hcl.taskmanager.service.UserService;
 
 @Controller
+@SessionAttributes({"sessionName","sessionId"})
 public class MainController {
 	
 	@Autowired
@@ -20,17 +27,20 @@ public class MainController {
 	private TaskService taskServ;
 
 	@GetMapping("/home")
-	public ModelAndView index() {
+	public ModelAndView index(@ModelAttribute("sessionName") String username) {
+		System.out.println(username + "<-- is session empty/null?");
+		User user = userServ.findByUsername(username);
+		System.out.println(user + "<-- is user empty/null?");
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
-		User user = userServ.findById(101L);
-		mv.addObject("user", user);
-		mv.addObject("tasks", taskServ.getAllByUserId(user.getUserId()));
+		List<Task> list = taskServ.getAllByUserId(user.getUserId());
+		System.out.println(list + "<-- is list empty?");
+		mv.addObject("tasks", list);
 		return mv;
 	}
 	
 	@GetMapping("/add-task")
-	public String addTask() {
+	public String addTaskPage() {
 		return "add-task";
 	}
 	
@@ -38,6 +48,52 @@ public class MainController {
 	public String editTask() {
 		return "edit-task";
 	}
+	
+	@GetMapping("/login")
+	public String loginPage() {
+		return "login";
+	}
+	
+	@PostMapping("/login")
+	public ModelAndView login(@RequestParam String username, @RequestParam String password) {
+		ModelAndView mv = new ModelAndView();
+		if(userServ.isValid(username,password)) {
+			User user = userServ.findByUsername(username);
+			mv.setViewName("home");
+			mv.addObject("sessionName", user.getUsername());
+			mv.addObject("sessionId", user.getUserId());
+			mv.addObject("user", user);
+			mv.addObject("tasks", taskServ.getAllByUserId(user.getUserId()));
+			System.out.println("\nMADE IT OKAY ----------------- \n");
+		}else {
+			mv.setViewName("login");
+			mv.addObject("username", username);
+			mv.addObject("message", "Invalid username/password");
+		}
+		return mv;
+	}
+	
+	@GetMapping("/register")
+	public String registerPage() {
+		return "register";
+	}	
+	
+	@PostMapping("/register")
+	public ModelAndView register(User user) {
+		ModelAndView mv = new ModelAndView();
+		if(userServ.findByUsername(user.getUsername()) != null) {
+			mv.setViewName("register");
+			mv.addObject("message", "Username is already in use");
+			mv.addObject("user", user);
+		}else {
+			mv.addObject("user",userServ.save(user).getUsername());
+			mv.addObject("message", "New user created successfully");
+			mv.setViewName("login");
+		}
+		return mv;
+	}
+	
+
 	
 	
 	

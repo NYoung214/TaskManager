@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+
 @Entity
 public class User {
 	
@@ -56,5 +57,8 @@ public class User {
 		this.task = task;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", task=" + task + "]";
+	}
 }

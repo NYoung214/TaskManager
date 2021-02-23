@@ -24,7 +24,7 @@
 				</select>
 			<label>Description</label>
 			<textarea name="description" cols="30" rows="10"></textarea>
-			<button type="submit">Add New Task</button><a href="/">Cancel</a>
+			<button type="submit">Add New Task</button><a href="/home">Cancel</a>
 		</form>
 	</div>
 </body>
