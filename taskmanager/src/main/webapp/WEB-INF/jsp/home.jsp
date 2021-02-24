@@ -9,42 +9,45 @@
 	<link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-	<div class="container test">
-		<div>
-			<h1>Welcome ${sessionName}</h1>
-			<p>${message}</p>
-			<p>${error}</p>
-		</div>
-		<div class="sub-contain test">
-			<div>
-				<a href="/add-task">Add Task</a>
+	<div class="container">
+		<div class="home-sub-container">
+			<div class="home-welcome">
+				<h1>Welcome ${sessionName}</h1>
+				<p>${message}</p>
+				<p>${error}</p>
 			</div>
-		</div>
-		<div class="sub-contain test">
-			<div>
-				<p class="left">
-				Task Name - User - email - Start Date <br>
-				Severity - Task End ate - Description<br>
-				</p>
+			<div class="add-bar">
+				<a href="/add-task" class="button-link">Add Task</a>
+				<a href="/logout" class="button-link">Logout</a>
 			</div>
-			
-			<c:forEach items="${tasks}" var="task">
+			<div class="">
+				<c:forEach items="${tasks}" var="task">
+					<div class="home-table-holder">
+						<div class="home-table">
+							<div class="table"><label class="label">Task Name:</label><span class="table-text">${task.taskName}</span></div>
+							<div class="table"><label class="label">Severity:</label><span class="table-text">${task.severity}</span></div>
+							<div class="table"><label class="label">Start Date:</label><span class="table-text">${task.startDate}</span></div>
+							<div class="table"><label class="label">End Date:</label><span class="table-text">${task.endDate}</span></div>
+							<div class="table"><label class="label">Description:</label><textarea class="table-text" readonly>${task.description}</textarea></div>
+							<div class="table">
+								<table>
+									<tr>
+										<td><a href="/edit-task/${task.taskId}" class="button-link">Edit</a></td>
+										<td><a href="/delete-task/${task.taskId}" class="button-link">Delete</a></td>
+									</tr>
+								</table>							
+							</div>
+
+						</div>
+					</div>
+						
+				</c:forEach>
+				
 				<div>
-					<p class="left">
-					${task.taskId } - ${task.taskName} - ${task.user.username } - ${task.user.email } - ${task.startDate} - ${task.endDate }<br>
-					${task.severity } - ${task.endDate } - ${task.description }
-					</p>
-					<p class="right">
-						<a href="/edit-task/${task.taskId}">Edit</a><br>
-						<a href="/delete-task/${task.taskId}">Delete</a><br>
-					</p>				
 				</div>
-			</c:forEach>
-			
-			<div>
-				<a href="/logout">Logout</a>
-			</div>
+			</div>		
 		</div>
+			
 	</div>
 </body>
 </html>

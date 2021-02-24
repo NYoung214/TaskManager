@@ -5,13 +5,17 @@
 <head>
 	<meta charset="ISO-8859-1">
 	<title>Logout</title>
+	<link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 	<div class="container">
-		<h2>Logout</h2>
-		<p>${message}</p>
-		<p>${error}</p>
-		<a href="/login">Login</a>
+		<div class="edit-container">
+			<h2>Logout</h2>
+			<p>${message}</p>
+			<p>${error}</p>
+			<a href="/login" class="back-link">Login</a>		
+		</div>
+
 	</div>
 </body>
 </html>
