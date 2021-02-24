@@ -4,18 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.hcl.taskmanager.entity.User;
+import com.hcl.taskmanager.exception.UserNameTakenException;
+import com.hcl.taskmanager.exception.UserNotFoundException;
 import com.hcl.taskmanager.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService{
 
 	@Autowired
 	UserRepository userRepo;
 
 	public User findById(long l) {
+		try {
+			userRepo.findById(l);
+		}catch(UserNotFoundException ex) {
+			throw new UserNotFoundException(l);
+		}
 		return userRepo.findById(l).get();
 	}
 
@@ -31,8 +41,9 @@ public class UserService {
 		User user = userRepo.findByUsername(username);
 		if(user != null && user.getPassword().equals(password)) {
 			return true;
+		}else {
+			throw new UserNameTakenException(username);
 		}
-		return false;
 	}
 
 	public List<User> findAll() {
@@ -41,6 +52,16 @@ public class UserService {
 			list.add(user);
 		}
 		return list;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		User user = userRepo.findByUsername(username);
+		if(user == null) {
+			throw new UsernameNotFoundException(String.format("%s was not found", username));
+		}
+		return new UserDetailsImp(user);
 	}
 
 

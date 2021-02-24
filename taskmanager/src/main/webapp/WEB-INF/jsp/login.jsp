@@ -19,11 +19,11 @@
 					<table>
 						<tr>
 							<td><label class="label">Username</label></td>
-							<td><input type="text" name="username" placeholder="username" value="test"/></td>
+							<td><input type="text" name="username" placeholder="username" /></td>
 						</tr>
 						<tr>
 							<td><label class="label">Password</label></td>
-							<td><input type="password" name="password" placeholder="password" value="test"/></td>
+							<td><input type="password" name="password" placeholder="password" /></td>
 						</tr>
 						<tr>
 							<td><button type="submit" class="submit-button">Login</button></td>

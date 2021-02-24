@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.hcl.taskmanager.entity.Task;
 import com.hcl.taskmanager.entity.User;
+import com.hcl.taskmanager.exception.TaskNotFoundException;
 import com.hcl.taskmanager.repository.TaskRepository;
 
 @Service
@@ -29,7 +30,11 @@ public class TaskService {
 	}
 
 	public Task findById(Long id) {
-		
+		try {
+			taskRepo.findById(id).get();
+		}catch(TaskNotFoundException ex) {
+			throw new TaskNotFoundException(id);
+		}
 		return taskRepo.findById(id).get();
 	}
 	

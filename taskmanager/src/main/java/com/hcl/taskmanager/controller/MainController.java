@@ -1,6 +1,8 @@
 package com.hcl.taskmanager.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -28,11 +31,13 @@ public class MainController {
 	@Autowired
 	private TaskService taskServ;
 
-	@GetMapping("/home")
-	public ModelAndView index(@ModelAttribute("sessionName") String username) {
-		User user = userServ.findByUsername(username);
+	@GetMapping({"/","/index","/home"})
+	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userServ.findByUsername(auth.getName());
+		mv.addObject("sessionName", user.getUsername());
 		mv.addObject("user", user);
 		mv.addObject("tasks", taskServ.getAllByUserId(user.getUserId()));
 		return mv;
@@ -72,8 +77,8 @@ public class MainController {
 	}
 	
 	@PostMapping("/update")
-	public ModelAndView editTask(@RequestParam String username, @ModelAttribute("sessionName") String session, 
-			@RequestParam String taskId,Task task) {
+	public ModelAndView editTask(@RequestParam String username, @RequestParam String taskId, Task task,
+			@ModelAttribute("sessionName") String session) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
 		User user = userServ.findByUsername(username);
@@ -93,39 +98,43 @@ public class MainController {
 	
 	
 	
-	@GetMapping("/logout")
-	public String logoutPage(@ModelAttribute("sessionName") String session, SessionStatus status ) {
-		status.setComplete();
-		ModelMap m = new ModelMap();
-		if(status.isComplete()) {
-			m.addAttribute("message", "logout successful");
-			return "logout";
-		}
-		m.addAttribute("error", "logout unsuccessful");
-		return "home";
-	}
+//	@GetMapping("/logout")
+//	public String logoutPage(@ModelAttribute("sessionName") String session, SessionStatus status ) {
+//		status.setComplete();
+//		ModelMap m = new ModelMap();
+//		if(status.isComplete()) {
+//			m.addAttribute("message", "logout successful");
+//			return "logout";
+//		}
+//		m.addAttribute("error", "logout unsuccessful");
+//		return "home";
+//	}
 	
-	@GetMapping("/login")
+	@RequestMapping("/login")
 	public String loginPage() {
 		return "login";
 	}
-	
-	@PostMapping("/login")
-	public ModelAndView login(@RequestParam String username, @RequestParam String password) {
-		ModelAndView mv = new ModelAndView();
-		if(userServ.isValid(username,password)) {
-			User user = userServ.findByUsername(username);
-			mv.setViewName("home");
-			mv.addObject("sessionName", user.getUsername());
-			mv.addObject("user", user);
-			mv.addObject("tasks", taskServ.getAllByUserId(user.getUserId()));
-		}else {
-			mv.setViewName("login");
-			mv.addObject("username", username);
-			mv.addObject("message", "Invalid username/password");
-		}
-		return mv;
+	@RequestMapping("/logout")
+	public String logoutPage() {
+		return "logout";
 	}
+
+//	@PostMapping("/login")
+//	public ModelAndView login(@RequestParam String username, @RequestParam String password) {
+//		ModelAndView mv = new ModelAndView();
+//		if(userServ.isValid(username,password)) {
+//			User user = userServ.findByUsername(username);
+//			mv.setViewName("home");
+//			mv.addObject("sessionName", user.getUsername());
+//			mv.addObject("user", user);
+//			mv.addObject("tasks", taskServ.getAllByUserId(user.getUserId()));
+//		}else {
+//			mv.setViewName("login");
+//			mv.addObject("username", username);
+//			mv.addObject("message", "Invalid username/password");
+//		}
+//		return mv;
+//	}
 	
 	@GetMapping("/register")
 	public String registerPage() {
